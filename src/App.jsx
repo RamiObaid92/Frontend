@@ -1,5 +1,3 @@
-// App.jsx
-
 import './assets/css/style.css'
 import './assets/css/animate.css'
 import { StrictMode } from 'react'

@@ -1,5 +1,3 @@
-// Projects.jsx
-
 import React from 'react'
 import ModalButton from '../partials/components/ModalButton'
 

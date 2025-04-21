@@ -5,14 +5,13 @@ const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
 
 export function AuthProvider({ children }) {
-  const API_BASE = import.meta.env.VITE_API_BASE_URL;
+  const API_BASE = import.meta.env.API_BASE;
   const AUTH_URL  = `${API_BASE}/api/auth`;
 
-  const [user,    setUser]    = useState(null);
-  const [roles,   setRoles]   = useState([]);
+  const [user,    setUser] = useState(null);
+  const [roles,   setRoles] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Sign In
   const signIn = async ({ email, password, rememberMe }) => {
     setLoading(true);
     const res = await fetch(`${AUTH_URL}/signin`, {

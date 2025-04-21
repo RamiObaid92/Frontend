@@ -1,5 +1,3 @@
-// PortalLayout.jsx
-
 import React from 'react'
 import Sidebar from '../../partials/sections/Sidebar'
 import Header from '../../partials/sections/Header'

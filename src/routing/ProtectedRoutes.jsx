@@ -1,5 +1,3 @@
-// ProtectedRoutes.jsx
-
 // eslint-disable-next-line no-unused-vars
 import React, { useEffect } from 'react';
 import { Navigate } from 'react-router-dom'
