@@ -1,3 +1,5 @@
+// RoutesConfig.jsx
+
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { AdminRoute, ProtectedRoute } from './ProtectedRoutes'
@@ -15,6 +17,7 @@ const routesConfig = [
   {
     element: <CenterScreenLayout />,
     children: [
+      { path: "/", element: <Navigate to="/auth/signin" replace /> },
       { path: "/auth/signup", element: <SignUp /> },
       { path: "/auth/signin", element: <SignIn /> }
     ]
