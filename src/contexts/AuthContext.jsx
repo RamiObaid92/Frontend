@@ -1,4 +1,3 @@
-// AuthContext.jsx
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
@@ -35,7 +34,6 @@ export function AuthProvider({ children }) {
     return u;
   };
 
-  // Sign Up
   const signUp = async (formData) => {
     setLoading(true);
     const res = await fetch(`${AUTH_URL}/signup`, {
