@@ -5,6 +5,8 @@ import { useAuth } from "../../contexts/AuthContext";
 const NavLinks = () => {
   const { roles } = useAuth();
 
+  console.log("User roles in NavLinks:", roles);
+
   return (
     <nav className="nav-links">
       <NavLinkItem
@@ -13,7 +15,7 @@ const NavLinks = () => {
         iconClass="fa-duotone fa-solid fa-briefcase"
       />
 
-      {roles.includes === "Admin" && (
+      {roles.includes("Admin") && (
         <>
           <NavLinkItem
             to="/admin/members"
