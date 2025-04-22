@@ -625,10 +625,3 @@ section > .content {
         text-align: center;
         margin-top: 2rem; 
     }
-
-@media (width >= 768px) {
-    #signup,
-    #signin {
-        width: 30%;
-    }
-}

@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function SignUp() {
   const { signUp, loading } = useAuth();
   const navigate = useNavigate();
 
-  const [firstName, setFirstName]     = useState('');
-  const [lastName, setLastName]       = useState('');
-  const [email, setEmail]             = useState('');
-  const [password, setPassword]       = useState('');
-  const [confirm, setConfirm]         = useState('');
-  const [error, setError]             = useState(null);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirm, setConfirm] = useState('');
+  const [error, setError] = useState(null);
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -28,8 +28,6 @@ export default function SignUp() {
         password,
         passwordConfirmation: confirm
       };
-
-      console.log("Form data sent to signUp:", formData);
       
       await signUp(formData);
       navigate('/signin');
@@ -39,54 +37,102 @@ export default function SignUp() {
   };
 
   return (
-    <div className="container">
-      <h2>Sign Up</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>First Name</label>
-          <input 
-            type="text" 
-            value={firstName} 
-            onChange={e => setFirstName(e.target.value)} 
-            required />
+    <section id="signup">
+      <div className="content">
+        <div className="section-header">
+          <h2>Create an Account</h2>
         </div>
-        <div>
-          <label>Last Name</label>
-          <input 
-            type="text" 
-            value={lastName} 
-            onChange={e => setLastName(e.target.value)} 
-            required />
+        
+        <section className="section-body">
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="firstName">First Name</label>
+              <div className="field-group">
+                <input 
+                  id="firstName"
+                  type="text" 
+                  value={firstName} 
+                  onChange={e => setFirstName(e.target.value)} 
+                  placeholder="Enter your first name"
+                  required 
+                />
+              </div>
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="lastName">Last Name</label>
+              <div className="field-group">
+                <input 
+                  id="lastName"
+                  type="text" 
+                  value={lastName} 
+                  onChange={e => setLastName(e.target.value)} 
+                  placeholder="Enter your last name"
+                  required 
+                />
+              </div>
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <div className="field-group">
+                <input 
+                  id="email"
+                  type="email" 
+                  value={email} 
+                  onChange={e => setEmail(e.target.value)} 
+                  placeholder="Enter your email address"
+                  required 
+                />
+              </div>
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <div className="field-group">
+                <input 
+                  id="password"
+                  type="password" 
+                  value={password} 
+                  onChange={e => setPassword(e.target.value)} 
+                  placeholder="Create a password"
+                  required 
+                />
+              </div>
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="confirm">Confirm Password</label>
+              <div className="field-group">
+                <input 
+                  id="confirm"
+                  type="password" 
+                  value={confirm} 
+                  onChange={e => setConfirm(e.target.value)} 
+                  placeholder="Confirm your password"
+                  required 
+                />
+              </div>
+            </div>
+            
+            {error && (
+              <div className="form-group">
+                <div className="field-validation-error">{error}</div>
+              </div>
+            )}
+            
+            <div className="form-group">
+              <button type="submit" className="btn btn-submit btn-signup" disabled={loading}>
+                <span>{loading ? 'Creating Account...' : 'Sign Up'}</span>
+              </button>
+            </div>
+          </form>
+        </section>
+        
+        <div className="section-footer">
+          <p>Already have an account? <Link to="/signin">Sign In</Link></p>
         </div>
-        <div>
-          <label>Email</label>
-          <input 
-            type="email" 
-            value={email} 
-            onChange={e => setEmail(e.target.value)} 
-            required />
-        </div>
-        <div>
-          <label>Password</label>
-          <input 
-            type="password" 
-            value={password} 
-            onChange={e => setPassword(e.target.value)} 
-            required />
-        </div>
-        <div>
-          <label>Confirm Password</label>
-          <input 
-            type="password" 
-            value={confirm} 
-            onChange={e => setConfirm(e.target.value)} 
-            required />
-        </div>
-        {error && <p className="error">{error}</p>}
-        <button type="submit" disabled={loading}>
-          {loading ? 'Signing up…' : 'Sign Up'}
-        </button>
-      </form>
-    </div>
+      </div>
+    </section>
   );
 }

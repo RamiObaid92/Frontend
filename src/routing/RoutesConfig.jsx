@@ -15,9 +15,9 @@ const routesConfig = [
   {
     element: <CenterScreenLayout />,
     children: [
-      { path: "/", element: <Navigate to="/auth/signin" replace /> },
-      { path: "/auth/signup", element: <SignUp /> },
-      { path: "/auth/signin", element: <SignIn /> }
+      { path: "/", element: <Navigate to="/signin" replace /> },
+      { path: "/signup", element: <SignUp /> },
+      { path: "/signin", element: <SignIn /> }
     ]
   },
   {
@@ -27,10 +27,10 @@ const routesConfig = [
       </ProtectedRoute>
     ),
     children: [
-      { path: "/admin/projects", element: <Projects /> },
-      { path: "/admin/members", element: <AdminRoute><Members /></AdminRoute> },
-      { path: "/admin/clients", element: <AdminRoute><Clients /></AdminRoute> },
-      { path: "*", element: <Navigate to="/admin/projects" replace /> }
+      { path: "/projects", element: <Projects /> },
+      { path: "/members", element: <AdminRoute><Members /></AdminRoute> },
+      { path: "/clients", element: <AdminRoute><Clients /></AdminRoute> },
+      { path: "*", element: <Navigate to="/projects" replace /> }
     ]
   },
 

@@ -1,73 +1,103 @@
-import { Link } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
   const { signIn, loading, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  const [email, setEmail]         = useState('');
-  const [password, setPassword]   = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [rememberMe, setRemember] = useState(false);
-  const [error, setError]         = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    console.log('Auth state changed:', { isAuthenticated });
+    if (isAuthenticated) {
+      console.log('User is authenticated, navigating to projects');
+      navigate('/projects');
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async e => {
     e.preventDefault();
+    console.log('Attempting sign in with:', { email, rememberMe });
     setError(null);
     try {
       await signIn({ email, password, rememberMe });
+      console.log('Sign in successful, navigating to projects');
       navigate('/projects');
     } catch (err) {
+      console.error('Sign in error:', err);
       setError(err.message);
     }
   };
 
-  if (isAuthenticated) {
-    navigate('/projects');
-    return null;
-  }
-
   return (
-    <div className="container">
-      <h2>Sign In</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email</label>
-          <input 
-            type="email" 
-            value={email} 
-            onChange={e => setEmail(e.target.value)} 
-            required />
-        </div>
-        <div>
-          <label>Password</label>
-          <input 
-            type="password" 
-            value={password} 
-            onChange={e => setPassword(e.target.value)} 
-            required />
-        </div>
-        <div>
-          <label>
-            <input 
-              type="checkbox" 
-              checked={rememberMe} 
-              onChange={e => setRemember(e.target.checked)} />
-            Remember Me
-          </label>
-        </div>
-        {error && <p className="error">{error}</p>}
+    <section id="signin">
+      <div className="content">
+        <section className="section-header">
+          <h2>Sign In</h2>
+        </section>
         
-        <button type="submit" disabled={loading}>
-          {loading ? 'Signing in…' : 'Sign In'}
-        </button>
-  
-        {/* 👇 Lägg till detta */}
-        <p style={{ marginTop: "1rem" }}>
-          Don't have an account? <Link to="/auth/signup">Sign up here</Link>
-        </p>
-      </form>
-    </div>
+        <section className="section-body">
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <div className="field-group">
+                <input 
+                  id="email"
+                  type="email" 
+                  value={email} 
+                  onChange={e => setEmail(e.target.value)} 
+                  placeholder="Enter your email address"
+                  required 
+                />
+              </div>
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
+              <div className="field-group">
+                <input 
+                  id="password"
+                  type="password" 
+                  value={password} 
+                  onChange={e => setPassword(e.target.value)} 
+                  placeholder="Enter your password"
+                  required 
+                />
+              </div>
+            </div>
+            
+            <div className="form-group">
+              <div className="checkbox-group">
+                <input 
+                  id="rememberMe"
+                  type="checkbox" 
+                  checked={rememberMe} 
+                  onChange={e => setRemember(e.target.checked)} 
+                />
+                <label htmlFor="rememberMe">Remember Me</label>
+              </div>
+            </div>
+            
+            <div className="form-group error-container">
+              {error && <div className="field-validation-error">{error}</div>}
+            </div>
+            
+            <div className="form-group">
+              <button type="submit" className="btn btn-submit btn-signin" disabled={loading}>
+                <span>{loading ? 'Signing In...' : 'Sign In'}</span>
+              </button>
+            </div>
+          </form>
+        </section>
+        
+        <section className="section-footer">
+          <p>Don't have an account? <Link to="/signup">Sign Up</Link></p>
+        </section>
+      </div>
+    </section>
   );
 }
