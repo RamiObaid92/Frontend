@@ -1,24 +1,22 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
-import { AdminRoute, ProtectedRoute } from './ProtectedRoutes'
+import React from "react";
+import { Navigate } from "react-router-dom";
+import { ProtectedRoute, AdminRoute } from "./ProtectedRoutes";
+import CenterScreenLayout from "../pages/layouts/CenterScreenLayout";
+import PortalLayout from "../pages/layouts/PortalLayout";
+import SignIn from "../pages/SignIn";
+import SignUp from "../pages/SignUp";
+import Projects from "../pages/Projects";
+import Members from "../pages/Members";
+import Clients from "../pages/Clients";
 
-import PortalLayout from '../pages/layouts/PortalLayout'
-import CenterScreenLayout from '../pages/layouts/CenterScreenLayout'
-
-import SignUp from '../pages/SignUp'
-import SignIn from '../pages/SignIn'
-import Projects from '../pages/Projects'
-import Members from '../pages/Members'
-import Clients from '../pages/Clients'
-
-const routesConfig = [
+export default [
   {
     element: <CenterScreenLayout />,
     children: [
-      { path: "/", element: <Navigate to="/signin" replace /> },
+      { path: "/signin", element: <SignIn /> },
       { path: "/signup", element: <SignUp /> },
-      { path: "/signin", element: <SignIn /> }
-    ]
+      { path: "/", element: <Navigate to="/signin" replace /> },
+    ],
   },
   {
     element: (
@@ -28,12 +26,23 @@ const routesConfig = [
     ),
     children: [
       { path: "/projects", element: <Projects /> },
-      { path: "/members", element: <AdminRoute><Members /></AdminRoute> },
-      { path: "/clients", element: <AdminRoute><Clients /></AdminRoute> },
-      { path: "*", element: <Navigate to="/projects" replace /> }
-    ]
+      {
+        path: "/members",
+        element: (
+          <AdminRoute>
+            <Members />
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "/clients",
+        element: (
+          <AdminRoute>
+            <Clients />
+          </AdminRoute>
+        ),
+      },
+      { path: "*", element: <Navigate to="/projects" replace /> },
+    ],
   },
-
-]
-
-export default routesConfig;
+];
