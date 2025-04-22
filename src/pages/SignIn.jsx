@@ -102,7 +102,7 @@ export default function SignIn() {
 
         <section className="section-footer">
           <p>
-            Don't have an account? <Link to="/signup">Sign Up</Link>
+            Don't have an account? <Link to="/auth/signup">Sign Up</Link>
           </p>
         </section>
       </div>
