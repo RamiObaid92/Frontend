@@ -62,3 +62,7 @@ export const clientsApi = {
 export const usersApi = {
   getAll: () => call("/api/Auth/users"),
 };
+
+export const statusApi = {
+  getAll: () => call("/api/Statuses"),
+};
