@@ -24,6 +24,9 @@ const AddProjectForm = ({ onSuccess, onCancel }) => {
                     clientsApi.getAll(),
                     usersApi.getAll()
                 ]);
+
+                console.log("RAW Client Data Received:", clientData);
+
                 setClients(clientData || []);
                 setUsers(userData || []);
                 console.log("AddProjectForm: Dropdown data loaded.");
@@ -81,7 +84,7 @@ const AddProjectForm = ({ onSuccess, onCancel }) => {
                     <option value="" disabled>-- Välj klient --</option>
                     {clients.map(client => (
                         <option key={client.id} value={client.id}>
-                            {client.name}
+                            {client.clientName}
                         </option>
                     ))}
                 </select>
