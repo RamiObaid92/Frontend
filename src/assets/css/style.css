@@ -469,10 +469,11 @@ a {
             margin-bottom: 2rem;
         }
 
-        /* .modal > .modal-content main,
+
+        .modal > .modal-content main,
         .modal > .modal-content .modal-body {
 
-        } */
+        }
 
 /* forms */
 form {

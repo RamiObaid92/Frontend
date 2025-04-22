@@ -1,79 +1,115 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth }          from '../contexts/AuthContext';
 import { projectsApi }      from '../api/auth';
-import LoadingSpinner       from '../partials/components/LoadingSpinner';
+import ModalButton from '../partials/components/ModalButton';
+import AddProjectForm from '../partials/components/AddProjectForm';
 
-export default function Projects() {
-  const { isAuthenticated, loading: authLoading, user } = useAuth();
-  const [loading, setLoading] = useState(true);
-  const [error, setError]     = useState(null);
+const Projects = () => {
+  const { isAuthenticated, loading: authLoading } = useAuth();
   const [projects, setProjects] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const fetchProjects = async () => {
+    try {
+      console.log("Fetching projects...");
+      const data = await projectsApi.getAll();
+      setProjects(data || []);
+      console.log("Projects fetched:", data);
+    } catch (err) {
+      console.error("Failed to fetch projects:", err);
+      setProjects([]);
+    }
+  };
 
   useEffect(() => {
     if (authLoading) return;
     if (!isAuthenticated) {
-      setLoading(false);
+      setProjects([]);
       return;
     }
-
-    const fetchProjects = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const data = await projectsApi.getAll();
-        setProjects(data);
-      } catch (err) {
-        console.error(err);
-        setError(err.message || 'Kunde inte ladda projekt');
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchProjects();
-  }, [authLoading, isAuthenticated, user]);
+  }, [authLoading, isAuthenticated]);
 
-  if (authLoading) return <LoadingSpinner />;
+  const closeModal = () => setIsModalOpen(false);
+  const handleProjectCreated = () => {
+    closeModal();
+    fetchProjects();
+  };
+  const handleCancelForm = () => closeModal();
 
+
+  // Behåll IsAuthenticated Check
   if (!isAuthenticated) {
-    return <div className="projects-container">
-      Du måste logga in för att se dina projekt.
-    </div>;
+    return (
+      <div className="projects-container">
+        Du måste logga in för att se dina projekt.
+      </div>
+    );
   }
 
-  if (loading) return <LoadingSpinner />;
-
   return (
-    <section id="projects">
+    <section>
+      {/* Header med knapp */}
+      <header className="page-header">
+        <h1 className="h2">Projects</h1>
+        <ModalButton
+          type="add"
+          target="#addProjectModal"
+          text="Add Project"
+          onClick={() => {
+              console.log("Add Project button clicked!");
+              setIsModalOpen(true);
+          }}
+        />
+      </header>
       <div className="content">
-        <section className="section-header">
-          <h2>Dina Projekt</h2>
-          {user && <p>Välkommen, {user.firstName}!</p>}
-        </section>
-
-        <section className="section-body">
-          {error && (
-            <div className="error">{error}</div>
-          )}
-          {!error && projects.length === 0 ? (
-            <div className="no-projects">
-              <p>Du har inga projekt än.</p>
-              <button className="btn btn-primary">
-                Skapa nytt projekt
-              </button>
-            </div>
-          ) : (
-            <div className="projects-list">
-              {projects.map(p => (
-                <div key={p.id} className="project-card">
-                  <h3>{p.name}</h3>
-                  <p>{p.description}</p>
-                </div>
+         {projects.length > 0 ? (
+            <ul
+              className="projects-list"
+              style={{ listStyle: "none", padding: 0 }}>
+              {projects.map((project) => (
+                <li key={project.id} className="project-item">
+                  <h3>{project.projectName}</h3>
+                  {project.description && <p>{project.description}</p>}
+                </li>
               ))}
-            </div>
+            </ul>
+          ) : (
+            <p>Inga projekt hittades.</p>
           )}
-        </section>
+      </div>
+
+      <div
+        className={`modal ${isModalOpen ? "show" : ""}`}
+        id="addProjectModal"
+        tabIndex="-1"
+        aria-labelledby="addProjectModalLabel"
+        aria-hidden={!isModalOpen}
+      >
+        <div className="modal-content">
+            <header className="modal-header">
+              <h5 className="modal-title" id="addProjectModalLabel">
+                Skapa Nytt Projekt
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                aria-label="Close"
+                onClick={closeModal}
+               ></button>
+            </header>
+            <div className="modal-body">
+              {isModalOpen && isAuthenticated && (
+                <AddProjectForm
+                  onSuccess={handleProjectCreated}
+                  onCancel={handleCancelForm}
+                />
+              )}
+            </div>
+        </div>
       </div>
     </section>
   );
-}
+};
+
+export default Projects;

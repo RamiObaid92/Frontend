@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import LoadingSpinner from "../partials/components/LoadingSpinner";
 
-export default function SignIn() {
+const SignIn = () => {
   const { signIn, loading, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -109,3 +109,5 @@ export default function SignIn() {
     </section>
   );
 }
+
+export default SignIn;
