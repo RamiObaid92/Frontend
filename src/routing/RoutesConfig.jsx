@@ -13,9 +13,9 @@ export default [
   {
     element: <CenterScreenLayout />,
     children: [
-      { path: "/signin", element: <SignIn /> },
-      { path: "/signup", element: <SignUp /> },
-      { path: "/", element: <Navigate to="/signin" replace /> },
+      { path: "/auth/signin", element: <SignIn /> },
+      { path: "/auth/signup", element: <SignUp /> },
+      { path: "/", element: <Navigate to="/auth/signin" replace /> },
     ],
   },
   {
@@ -25,9 +25,9 @@ export default [
       </ProtectedRoute>
     ),
     children: [
-      { path: "/projects", element: <Projects /> },
+      { path: "/admin/projects", element: <Projects /> },
       {
-        path: "/members",
+        path: "/admin/members",
         element: (
           <AdminRoute>
             <Members />
@@ -35,14 +35,14 @@ export default [
         ),
       },
       {
-        path: "/clients",
+        path: "/admin/clients",
         element: (
           <AdminRoute>
             <Clients />
           </AdminRoute>
         ),
       },
-      { path: "*", element: <Navigate to="/projects" replace /> },
+      { path: "*", element: <Navigate to="/admin/projects" replace /> },
     ],
   },
 ];

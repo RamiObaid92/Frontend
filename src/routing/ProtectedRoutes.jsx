@@ -6,7 +6,7 @@ import LoadingSpinner from "../partials/components/LoadingSpinner";
 export function ProtectedRoute({ children }) {
   const { isAuthenticated, loading } = useAuth();
   if (loading) return <LoadingSpinner />;
-  return isAuthenticated ? children : <Navigate to="/signin" replace />;
+  return isAuthenticated ? children : <Navigate to="/auth/signin" replace />;
 }
 
 export function AdminRoute({ children }) {
@@ -15,6 +15,6 @@ export function AdminRoute({ children }) {
   return isAuthenticated && roles.includes("Admin") ? (
     children
   ) : (
-    <Navigate to="/projects" replace />
+    <Navigate to="/admin/projects" replace />
   );
 }
