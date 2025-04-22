@@ -447,11 +447,15 @@ a {
     justify-content: center;
     align-items: center;
     position: fixed;
+    z-index: 1050;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
 }
+.modal.show {
+    display: flex;
+  }
 
     .modal > .modal-content {
         background-color: var(--modal-background-color);
@@ -469,11 +473,6 @@ a {
             margin-bottom: 2rem;
         }
 
-
-        .modal > .modal-content main,
-        .modal > .modal-content .modal-body {
-
-        }
 
 /* forms */
 form {
