@@ -38,7 +38,6 @@ const Projects = () => {
   const handleCancelForm = () => closeModal();
 
 
-  // Behåll IsAuthenticated Check
   if (!isAuthenticated) {
     return (
       <div className="projects-container">
@@ -49,7 +48,6 @@ const Projects = () => {
 
   return (
     <section>
-      {/* Header med knapp */}
       <header className="page-header">
         <h1 className="h2">Projects</h1>
         <ModalButton
